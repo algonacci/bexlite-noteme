@@ -1,33 +1,20 @@
 import { TemplateBase } from "../templates/templateBase";
-
-export interface INote {
-  id: number;
-  content: string;
-}
+import { NoteForm } from "../components/noteForm";
+import { NoteCard } from "../components/noteCard";
+import { INote } from "../../types/entity";
 
 export const Home = ({ notes }: { notes: INote[] }) => {
   return (
     <TemplateBase>
-      <h1>Note</h1>
-      <form id="noteForm" hx-post="/notes" hx-target="#notes" hx-swap="beforeend">
-        <textarea name="content"></textarea>
-        <button>Create note</button>
-      </form>
-      <div id="notes">
-        {notes.map((note) => {
-          return (
-            <main id={`note-${note.id}`}>
-              <li>{note.content}</li>
-              <button hx-get={`/notes/${note.id}/edit`} hx-swap="none">
-                Edit
-              </button>
-              <button hx-delete={`/notes/${note.id}`} hx-target="closest main">
-                Delete
-              </button>
-            </main>
-          );
-        })}
-      </div>
+      <main class="space-y-6">
+        <h1 class="font-bold text-center py-4">Note App</h1>
+        <NoteForm />
+        <div id="notes" class="space-y-4">
+          {notes.map((note) => {
+            return <NoteCard note={note} />;
+          })}
+        </div>
+      </main>
     </TemplateBase>
   );
 };

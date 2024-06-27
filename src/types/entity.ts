@@ -5,3 +5,8 @@ export const bodySchema = t.Object({
 })
 
 export type TBody = Static<typeof bodySchema>
+
+export interface INote {
+    id: number;
+    content: string;
+}
