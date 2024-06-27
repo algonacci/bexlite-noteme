@@ -13,16 +13,36 @@ const app = new Elysia()
       data: allNotes
     }
   })
-  .post("/notes", ({ body }) => {
+  .post("/notes", ({ set, body }) => {
+    set.status = 201
     const { content } = body
-    const createNote = client.query("INSERT INTO notes (content) VALUES (?)").all(content)
+    client.query("INSERT INTO notes (content) VALUES (?)").all(content)
+    return {
+      status: {
+        code: 201,
+        message: "Success create new note"
+      },
+      data: null
+    }
+  }, {
+    body: t.Object({
+      content: t.String()
+    })
+  })
+  .delete("/notes/:id", ({ params }) => {
+    client.query("DELETE FROM notes WHERE id = ?").run(params.id)
     return {
       status: {
         code: 200,
-        message: "Success fetching all notes"
+        message: `Note with ID ${params.id} has been deleted`
       },
-      data: createNote
+      data: null
     }
+  })
+  .patch("/notes/:id", ({ params, body }) => {
+    const { id } = params
+    const { content } = body
+    client.query("UPDATE notes SET content = (?) WHERE id = (?)").run(content, id)
   }, {
     body: t.Object({
       content: t.String()
