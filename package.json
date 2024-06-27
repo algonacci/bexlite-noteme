@@ -6,6 +6,8 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@elysiajs/html": "^1.0.2",
+    "@grotto/logysia": "^0.1.4",
     "elysia": "latest"
   },
   "devDependencies": {
