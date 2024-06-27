@@ -2,6 +2,15 @@ import { Elysia, t } from "elysia";
 import { client } from "../models/client";
 
 const APINoteController = (app: Elysia) => {
+  app.get("/", () => {
+    return {
+      status: {
+        code: 200,
+        message: "Success fetching the API",
+      },
+      data: null,
+    };
+  });
   app.get("/notes", () => {
     const allNotes = client.query(`SELECT * FROM notes`).all();
     return {

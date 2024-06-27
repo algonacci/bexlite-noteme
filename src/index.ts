@@ -1,21 +1,23 @@
 import { Elysia, t } from "elysia";
-import APINoteController from "./controllers/APInoteController";
+import { controllers } from "./controllers";
 import { html } from "@elysiajs/html";
-import { logger } from '@grotto/logysia';
+// import { logger } from '@grotto/logysia';
+import { getNotes } from "./controllers/noteController";
 
 
 const app = new Elysia()
   .use(html())
-  .use(logger({
-    logIP: false,
-    writer: {
-      write(msg: string) {
-        console.log(msg)
-      }
-    }
-  }))
+  // .use(logger({
+  //   logIP: false,
+  //   writer: {
+  //     write(msg: string) {
+  //       console.log(msg)
+  //     }
+  //   }
+  // }))
   .get("/", () => "Hello Elysia")
-  .use(APINoteController)
+  .get("/notes", getNotes)
+  .use(controllers)
   .listen(3000);
 
 console.log(
